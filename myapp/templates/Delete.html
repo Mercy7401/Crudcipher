@@ -1,43 +1,22 @@
-# app - templates - Delete.html file
+{% extends 'base.html' %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Title</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
-</head>
-<body>
-<div class='container mt-5'>
-    <div class="col-sm-6 text-center badge-warning" style="margin-left: 250px; border: 1px; border-radius: 10px ; padding: 10px;">
-        <h1 class="bg-primary">Are you want to delete..?</h1>
-        <form method="post" style="align-items:center;">
-            {%csrf_token%}
-            <button type="submit" class="btn btn-danger"> Confirm </button>
-            <a href="/" class="btn btn-success"> Back</a>
-        </form>
-    </div>
+{% block content %}
+<div class="page-heading">
+    <div class="eyebrow"><a href="{% url 'myapp:user_list' %}">Directory</a> <span>/</span> Remove profile</div>
+    <h1>Delete profile</h1>
+    <p class="page-description">Review this action before you continue.</p>
 </div>
-</body>
-</html>
-# app - templates - Edit.html 
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title class="bg-info">Edit User</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
-</head>
-<body>
-<div class="w-50 m-auto p-4 bg-light">
-<h1 class="text-center bg-info"> Edit User </h1>
-    <form method="post" enctype="multipart/form-data">
-        {{form.as_p}}
-        <button type="submit" class="btn btn-primary">Update User</button>
+<section class="panel confirm-panel">
+    <span class="confirm-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 8v5M12 16.5h.01M10.3 4.7 2.8 18a2 2 0 0 0 1.7 3h15a2 2 0 0 0 1.7-3l-7.5-13.3a2 2 0 0 0-3.4 0Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </span>
+    <h2>Remove {{ user_record.name }}?</h2>
+    <p>This profile will be permanently removed from your directory. This action cannot be undone.</p>
+    <form method="post" class="confirm-actions">
         {% csrf_token %}
+        <a class="button button-secondary" href="{% url 'myapp:user_list' %}">Keep profile</a>
+        <button class="button button-danger" type="submit">Delete profile</button>
     </form>
-
-</div>
-</body>
-</html>
+</section>
+{% endblock %}

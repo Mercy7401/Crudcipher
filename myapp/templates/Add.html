@@ -1,20 +1,29 @@
-# app - templates - Add.html file
+{% extends 'base.html' %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title class="bg-info">User list</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
-</head>
-<body>
-<div class=" w-50 m-auto p-4 bg-light ">
-<h1 class="text-center m-4 bg-info"> Add User </h1>
-    <form method="post" enctype="multipart/form-data">
-        {{form.as_p}}
-        <button type="submit" class="btn btn-primary">Save</button>
-        {% csrf_token %}
-    </form>
+{% block content %}
+<div class="page-heading">
+    <div class="eyebrow"><a href="{% url 'myapp:user_list' %}">Directory</a> <span>/</span> Add profile</div>
+    <h1>Add a profile</h1>
+    <p class="page-description">Add someone's details to your directory.</p>
 </div>
-</body>
-</html>
+
+<section class="panel form-panel">
+    <div class="form-panel-heading">
+        <span class="form-heading-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M16 20v-1.6a3.4 3.4 0 0 0-3.4-3.4H6.4A3.4 3.4 0 0 0 3 18.4V20M9.5 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM19 8v6M16 11h6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+        <div><h2>Profile information</h2><p>Fields marked with <span class="required-mark">*</span> are required.</p></div>
+    </div>
+    <form method="post" enctype="multipart/form-data" novalidate>
+        {% csrf_token %}
+        {% include 'form_fields.html' %}
+        <div class="form-actions">
+            <a class="button button-secondary" href="{% url 'myapp:user_list' %}">Cancel</a>
+            <button class="button button-primary" type="submit">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                Save profile
+            </button>
+        </div>
+    </form>
+</section>
+{% endblock %}

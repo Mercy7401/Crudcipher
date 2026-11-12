@@ -1,0 +1,92 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#172554">
+    <title>{{ page_title|default:"Directory" }} · Cipher Directory</title>
+    <link rel="stylesheet" href="{% static 'myapp/css/app.css' %}">
+    <script src="{% static 'myapp/js/app.js' %}" defer></script>
+</head>
+<body>
+<div class="app-shell">
+    <div class="sidebar-backdrop" data-sidebar-backdrop></div>
+    <aside class="sidebar" id="app-sidebar" aria-label="Main navigation">
+        <a class="brand" href="{% url 'myapp:user_list' %}">
+            <span class="brand-mark" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">
+                    <path d="M16 20v-1.6a3.4 3.4 0 0 0-3.4-3.4H6.4A3.4 3.4 0 0 0 3 18.4V20M9.5 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM16 11a4 4 0 0 0 0-8M21 20v-1.6a3.4 3.4 0 0 0-2.5-3.3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </span>
+            <span class="brand-copy">
+                <strong>Cipher Directory</strong>
+                <small>People, thoughtfully managed</small>
+            </span>
+        </a>
+
+        <div class="sidebar-section-label">Workspace</div>
+        <nav class="primary-nav">
+            <a class="nav-link{% if request.resolver_match.url_name == 'user_list' %} is-active{% endif %}"
+               href="{% url 'myapp:user_list' %}"
+               {% if request.resolver_match.url_name == 'user_list' %}aria-current="page"{% endif %}>
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                <span>Directory</span>
+            </a>
+            <a class="nav-link{% if request.resolver_match.url_name == 'user_add' %} is-active{% endif %}"
+               href="{% url 'myapp:user_add' %}"
+               {% if request.resolver_match.url_name == 'user_add' %}aria-current="page"{% endif %}>
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                <span>Add a profile</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <div class="workspace-note">
+                <span class="workspace-note-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none"><path d="M12 3 4.5 6v5.5c0 4.3 3.2 7.7 7.5 9.5 4.3-1.8 7.5-5.2 7.5-9.5V6L12 3Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="m9 12 2 2 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
+                <span><strong>Your directory</strong><small>One clear place for every profile.</small></span>
+            </div>
+            <div class="sidebar-caption">Cipher Directory <span>·</span> v1.0</div>
+        </div>
+    </aside>
+
+    <div class="main-shell">
+        <header class="topbar">
+            <button class="menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="app-sidebar" data-menu-toggle>
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            </button>
+            <div class="topbar-context">
+                <span class="topbar-eyebrow">Workspace</span>
+                <span class="topbar-title">People directory</span>
+            </div>
+            <div class="topbar-profile" aria-label="Cipher Directory workspace">
+                <span class="profile-avatar">CD</span>
+                <span class="profile-name">Directory</span>
+            </div>
+        </header>
+
+        <main class="main-content">
+            {% if messages %}
+                <div class="message-stack" aria-live="polite">
+                    {% for message in messages %}
+                        <div class="message message-{{ message.tags|default:'info' }}" role="status">
+                            <span>{{ message }}</span>
+                            <button class="message-dismiss" type="button" aria-label="Dismiss notification" data-dismiss-message>
+                                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                            </button>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            {% block content %}{% endblock %}
+            <footer class="page-footer">
+                <span>Cipher Directory</span>
+                <span>Simple, considered profile management.</span>
+            </footer>
+        </main>
+    </div>
+</div>
+</body>
+</html>

@@ -1,47 +1,59 @@
-# app - templates - View.html
+{% extends 'base.html' %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>view</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
-</head>
-<body>
-<div class="container-fluid my-5">
-    <div class="w-50 m-auto p-4 bg-info ">
-        <h2 class="text-center mt-4"> User Details</h2>
-        <table class="table bg-white">
-            <tr>
-                <th>Photo</th>
-                <td><img src="/media/{{user.photo}} " class="rounded  d-block" height="100px" width="120px"></td>
-            </tr>
-            <tr>
-                <th>User name</th>
-                <td>{{user.name}}</td>
-            </tr>
-
-            <tr>
-                <th> Email </th>
-                <td>{{user.email}}</td>
-            </tr>
-            <tr>
-                <th> Password</th>
-                <td>{{user.password}}</td>
-            </tr>
-            <tr>
-                <th>Mobile_Number</th>
-                <td>{{user.mobile_number}}</td>
-            </tr>
-            <tr>
-                <th>Date of Birth</th>
-                <td>{{user.date_of_birth}}</td>
-            </tr>
-        </table>
+{% block content %}
+<div class="page-heading page-heading-row">
+    <div>
+        <div class="eyebrow"><a href="{% url 'myapp:user_list' %}">Directory</a> <span>/</span> Profile</div>
+        <h1>Profile details</h1>
+        <p class="page-description">Contact and personal information for {{ user.name }}.</p>
     </div>
-    <div class="text-center">
-        </button><a href="/" class="btn btn-success"> Back </button></a>
+    <div class="heading-actions">
+        <a class="button button-secondary" href="{% url 'myapp:user_list' %}">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m15 18-6-6 6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Back to directory
+        </a>
+        <a class="button button-primary" href="{% url 'myapp:user_edit' user.pk %}">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m14 5 5 5M4 20l4.3-.9L19 8.4a2.1 2.1 0 0 0-3-3L5.3 16.1 4 20Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Edit profile
+        </a>
     </div>
 </div>
-</body>
-</html>
+
+<section class="panel profile-panel">
+    <div class="profile-overview">
+        {% if user.photo and user.photo.name != 'a.png' %}
+            <img class="profile-photo" src="{{ user.photo.url }}" alt="{{ user.name }}">
+        {% else %}
+            <span class="profile-photo profile-photo-fallback" aria-hidden="true">{{ user.name|slice:":1"|upper }}</span>
+        {% endif %}
+        <div>
+            <span class="profile-kicker">Directory profile</span>
+            <h2>{{ user.name }}</h2>
+            <a class="profile-email" href="mailto:{{ user.email }}">{{ user.email }}</a>
+        </div>
+    </div>
+    <div class="detail-grid">
+        <div class="detail-item">
+            <span class="detail-label">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.7"/><path d="m4 7 8 6 8-6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Email address
+            </span>
+            <a href="mailto:{{ user.email }}">{{ user.email }}</a>
+        </div>
+        <div class="detail-item">
+            <span class="detail-label">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7.2 3.5h2.5l1.2 4.2-1.8 1.6a15 15 0 0 0 5.6 5.6l1.6-1.8 4.2 1.2v2.5a2 2 0 0 1-2.2 2A16.3 16.3 0 0 1 5.2 5.7a2 2 0 0 1 2-2.2Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Phone number
+            </span>
+            <a href="tel:{{ user.mobile_number }}">{{ user.mobile_number }}</a>
+        </div>
+        <div class="detail-item">
+            <span class="detail-label">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3.5" y="5" width="17" height="16" rx="2" stroke="currentColor" stroke-width="1.7"/><path d="M7.5 3v4M16.5 3v4M3.5 9.5h17M8 13h.01M12 13h.01M16 13h.01M8 17h.01M12 17h.01" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+                Date of birth
+            </span>
+            <span>{{ user.date_of_birth|date:"F j, Y" }}</span>
+        </div>
+    </div>
+</section>
+{% endblock %}
